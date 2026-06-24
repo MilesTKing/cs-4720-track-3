@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cs-4720-track-3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cs-4720-track-3
+  template:
+    metadata:
+      labels:
+        app: cs-4720-track-3
+    spec:
+      containers:
+        - name: cs-4720-track-3
+          image: cs-4720-track-3:v1
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cs-4720-track-3
+spec:
+  selector:
+    app: cs-4720-track-3
+  ports:
+    - port: 80
+      targetPort: 80
+  type: NodePort

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sperry46-app
+  namespace: sperry46
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sperry46-app
+  template:
+    metadata:
+      labels:
+        app: sperry46-app
+    spec:
+      containers:
+        - name: sperry46-app
+          image: ghcr.io/milestking/cs-4720-track-3-app:v1
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sperry46-app
+  namespace: sperry46
+spec:
+  selector:
+    app: sperry46-app
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sperry46-app
+  namespace: sperry46
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: sperry46.k3s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sperry46-app
+                port:
+                  number: 80

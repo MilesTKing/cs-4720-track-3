@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sperry46-app
-  namespace: sperry46
+  name: cs-4720-track-3
+  namespace: mking205
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sperry46-app
+      app: cs-4720-track-3
   template:
     metadata:
       labels:
-        app: sperry46-app
+        app: cs-4720-track-3
     spec:
       containers:
-        - name: sperry46-app
-          image: ghcr.io/milestking/cs-4720-track-3-app:v1
+        - name: cs-4720-track-3
+          image: ghcr.io/milestking/cs-4720-track-3:v1
           ports:
             - containerPort: 80
           resources:
@@ -29,11 +29,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: sperry46-app
-  namespace: sperry46
+  name: cs-4720-track-3
+  namespace: mking205
 spec:
   selector:
-    app: sperry46-app
+    app: cs-4720-track-3
   ports:
     - port: 80
       targetPort: 80
@@ -42,18 +42,18 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sperry46-app
-  namespace: sperry46
+  name: cs-4720-track-3
+  namespace: mking205
 spec:
   ingressClassName: traefik
   rules:
-    - host: sperry46.k3s.local
+    - host: mking205.k3s.local
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: sperry46-app
+                name: cs-4720-track-3
                 port:
                   number: 80

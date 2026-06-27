@@ -1,2 +1,4 @@
 *.kubeconfig
 node_modules
+k3s-deployment.yaml
+minikube-deployment.yaml

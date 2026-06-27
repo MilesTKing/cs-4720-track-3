@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: cs-4720-track-3
-          image: cs-4720-track-3:v1
+          image: cs-4720-track-3:v2
           imagePullPolicy: Never
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           resources:
             requests:
               cpu: 100m

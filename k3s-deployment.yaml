@@ -15,9 +15,14 @@ spec:
     spec:
       containers:
         - name: cs-4720-track-3
-          image: ghcr.io/milestking/cs-4720-track-3:v1
+          image: ghcr.io/milestking/cs-4720-track-3:v2
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://neondb_owner:npg_H24FkKVWBZdj@ep-rapid-paper-at220tq3-pooler.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+            - name: DIRECT_URL
+              value: "postgresql://neondb_owner:npg_H24FkKVWBZdj@ep-rapid-paper-at220tq3.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
           ports:
-            - containerPort: 80
+            - containerPort: 3000
           resources:
             requests:
               cpu: 100m
@@ -36,7 +41,7 @@ spec:
     app: cs-4720-track-3
   ports:
     - port: 80
-      targetPort: 80
+      targetPort: 3000
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1

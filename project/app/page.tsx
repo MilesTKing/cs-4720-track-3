@@ -1,29 +1,41 @@
-import { neon } from '@neondatabase/serverless';
-import {sendForm, getInventory} from './actions'
+import {getInventory} from './actions'
+import OrderForm from './OrderForm'
+const initialState = {
+    success: false,
+    message: ""
+}
+
 export default async function Home() {
     const orders = await getInventory();
-    const order_list = orders.map(order => {
-        <li>id: ${order.id}, wheels: ${order.wheels} windshield wipers: ${order.windshield_wipers}, radios: ${order.radios}</li>
-    })
   return (
       <div>
           <h1>Miles's Auto Parts</h1>
-          <form action={sendForm}>
-              <input type='text' id={'wheels'} name={'wheels'}></input>
-              <label htmlFor={'wheels'}>Wheels</label>
-              <input type='text' id={'windshield-wipers'} name={'windshield-wipers'}></input>
-              <label htmlFor={'windshield-wipers'}>Windshield Wipers</label>
-              <input type='text' id={'radios'} name={'radios'}></input>
-              <label htmlFor={'radios'}>Radios</label>
-              <input type={'submit'} value={'Submit'}></input>
-          </form>
+          <OrderForm></OrderForm>
           <br/>
           <h1>Inventory</h1>
-          <ol>
-              {orders.map(order => (
-                  <li key={order.id}>id: {order.id}, wheels: {order.wheels} windshield wipers: {order.windshield_wipers}, radios: {order.radios}</li>
-                  ))}
-          </ol>
+          <table className="border border-black border-collapse mt-2">
+              <thead>
+              <tr>
+                  <th className="border border-black px-2">ID</th>
+                  <th className="border border-black px-2">Wheels</th>
+                  <th className="border border-black px-2">Windshield Wipers</th>
+                  <th className="border border-black px-2">Radios</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              {orders.map((order) => (
+                  <tr key={order.id}>
+                      <td className="border border-black px-2">{order.id}</td>
+                      <td className="border border-black px-2">{order.wheels}</td>
+                      <td className="border border-black px-2">
+                          {order.windshield_wipers}
+                      </td>
+                      <td className="border border-black px-2">{order.radios}</td>
+                  </tr>
+              ))}
+              </tbody>
+          </table>
 
       </div>
   );

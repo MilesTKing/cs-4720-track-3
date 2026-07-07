@@ -28,5 +28,5 @@ export async function sendForm(
 }
 
 export async function getInventory() {
-    return await prisma.orders.findMany();
+    return prisma.orders.findMany();
 }

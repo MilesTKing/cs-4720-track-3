@@ -51,7 +51,8 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
-  orders: 'orders'
+  orders: 'orders',
+  users: 'users'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -80,10 +81,44 @@ export const OrdersScalarFieldEnum = {
 export type OrdersScalarFieldEnum = (typeof OrdersScalarFieldEnum)[keyof typeof OrdersScalarFieldEnum]
 
 
+export const UsersScalarFieldEnum = {
+  id: 'id',
+  username: 'username',
+  password: 'password',
+  name: 'name',
+  bio: 'bio',
+  twitter: 'twitter',
+  instagram: 'instagram',
+  facebook: 'facebook',
+  profilePic: 'profilePic',
+  photos: 'photos',
+  friends: 'friends',
+  createdAt: 'createdAt'
+} as const
+
+export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 

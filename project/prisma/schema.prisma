@@ -8,8 +8,27 @@ generator client {
 }
 
 model orders {
-  id        Int      @id @default(autoincrement())
-  wheels Int
-  windshield_wipers     Int
-  radios      Int
+  id                Int @id @default(autoincrement())
+  wheels            Int
+  windshield_wipers Int
+  radios            Int
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  name     String
+  bio      String
+
+  twitter   String?
+  instagram String?
+  facebook  String?
+
+  profilePic String?
+
+  photos  String[]
+  friends String[]
+
+  createdAt DateTime @default(now())
 }

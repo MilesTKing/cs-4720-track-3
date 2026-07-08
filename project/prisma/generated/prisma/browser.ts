@@ -22,3 +22,8 @@ export * from './enums';
  * 
  */
 export type orders = Prisma.ordersModel
+/**
+ * Model users
+ * 
+ */
+export type users = Prisma.usersModel

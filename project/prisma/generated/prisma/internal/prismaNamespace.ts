@@ -385,7 +385,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   orders: 'orders',
-  users: 'users'
+  users: 'users',
+  friendrequest: 'friendrequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -401,7 +402,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "orders" | "users"
+    modelProps: "orders" | "users" | "friendrequest"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -553,6 +554,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    friendrequest: {
+      payload: Prisma.$friendrequestPayload<ExtArgs>
+      fields: Prisma.friendrequestFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.friendrequestFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.friendrequestFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>
+        }
+        findFirst: {
+          args: Prisma.friendrequestFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.friendrequestFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>
+        }
+        findMany: {
+          args: Prisma.friendrequestFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>[]
+        }
+        create: {
+          args: Prisma.friendrequestCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>
+        }
+        createMany: {
+          args: Prisma.friendrequestCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.friendrequestCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>[]
+        }
+        delete: {
+          args: Prisma.friendrequestDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>
+        }
+        update: {
+          args: Prisma.friendrequestUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>
+        }
+        deleteMany: {
+          args: Prisma.friendrequestDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.friendrequestUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.friendrequestUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>[]
+        }
+        upsert: {
+          args: Prisma.friendrequestUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$friendrequestPayload>
+        }
+        aggregate: {
+          args: Prisma.FriendrequestAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFriendrequest>
+        }
+        groupBy: {
+          args: Prisma.friendrequestGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FriendrequestGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.friendrequestCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FriendrequestCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -618,6 +693,17 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const FriendrequestScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type FriendrequestScalarFieldEnum = (typeof FriendrequestScalarFieldEnum)[keyof typeof FriendrequestScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -689,6 +775,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'FriendRequestStatus'
+ */
+export type EnumFriendRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FriendRequestStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'FriendRequestStatus[]'
+ */
+export type ListEnumFriendRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'FriendRequestStatus[]'>
     
 
 
@@ -817,6 +917,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   orders?: Prisma.ordersOmit
   users?: Prisma.usersOmit
+  friendrequest?: Prisma.friendrequestOmit
 }
 
 /* Types for Logging */

@@ -28,10 +28,12 @@ export type AggregateUsers = {
 
 export type UsersAvgAggregateOutputType = {
   id: number | null
+  friends: number | null
 }
 
 export type UsersSumAggregateOutputType = {
   id: number | null
+  friends: number[]
 }
 
 export type UsersMinAggregateOutputType = {
@@ -79,10 +81,12 @@ export type UsersCountAggregateOutputType = {
 
 export type UsersAvgAggregateInputType = {
   id?: true
+  friends?: true
 }
 
 export type UsersSumAggregateInputType = {
   id?: true
+  friends?: true
 }
 
 export type UsersMinAggregateInputType = {
@@ -224,7 +228,7 @@ export type UsersGroupByOutputType = {
   facebook: string | null
   profilePic: string | null
   photos: string[]
-  friends: string[]
+  friends: number[]
   createdAt: Date
   _count: UsersCountAggregateOutputType | null
   _avg: UsersAvgAggregateOutputType | null
@@ -262,8 +266,10 @@ export type usersWhereInput = {
   facebook?: Prisma.StringNullableFilter<"users"> | string | null
   profilePic?: Prisma.StringNullableFilter<"users"> | string | null
   photos?: Prisma.StringNullableListFilter<"users">
-  friends?: Prisma.StringNullableListFilter<"users">
+  friends?: Prisma.IntNullableListFilter<"users">
   createdAt?: Prisma.DateTimeFilter<"users"> | Date | string
+  sentRequests?: Prisma.FriendrequestListRelationFilter
+  receivedRequests?: Prisma.FriendrequestListRelationFilter
 }
 
 export type usersOrderByWithRelationInput = {
@@ -279,6 +285,8 @@ export type usersOrderByWithRelationInput = {
   photos?: Prisma.SortOrder
   friends?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  sentRequests?: Prisma.friendrequestOrderByRelationAggregateInput
+  receivedRequests?: Prisma.friendrequestOrderByRelationAggregateInput
 }
 
 export type usersWhereUniqueInput = Prisma.AtLeast<{
@@ -295,8 +303,10 @@ export type usersWhereUniqueInput = Prisma.AtLeast<{
   facebook?: Prisma.StringNullableFilter<"users"> | string | null
   profilePic?: Prisma.StringNullableFilter<"users"> | string | null
   photos?: Prisma.StringNullableListFilter<"users">
-  friends?: Prisma.StringNullableListFilter<"users">
+  friends?: Prisma.IntNullableListFilter<"users">
   createdAt?: Prisma.DateTimeFilter<"users"> | Date | string
+  sentRequests?: Prisma.FriendrequestListRelationFilter
+  receivedRequests?: Prisma.FriendrequestListRelationFilter
 }, "id" | "username">
 
 export type usersOrderByWithAggregationInput = {
@@ -333,7 +343,7 @@ export type usersScalarWhereWithAggregatesInput = {
   facebook?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
   profilePic?: Prisma.StringNullableWithAggregatesFilter<"users"> | string | null
   photos?: Prisma.StringNullableListFilter<"users">
-  friends?: Prisma.StringNullableListFilter<"users">
+  friends?: Prisma.IntNullableListFilter<"users">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"users"> | Date | string
 }
 
@@ -347,8 +357,10 @@ export type usersCreateInput = {
   facebook?: string | null
   profilePic?: string | null
   photos?: Prisma.usersCreatephotosInput | string[]
-  friends?: Prisma.usersCreatefriendsInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
   createdAt?: Date | string
+  sentRequests?: Prisma.friendrequestCreateNestedManyWithoutSenderInput
+  receivedRequests?: Prisma.friendrequestCreateNestedManyWithoutReceiverInput
 }
 
 export type usersUncheckedCreateInput = {
@@ -362,8 +374,10 @@ export type usersUncheckedCreateInput = {
   facebook?: string | null
   profilePic?: string | null
   photos?: Prisma.usersCreatephotosInput | string[]
-  friends?: Prisma.usersCreatefriendsInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
   createdAt?: Date | string
+  sentRequests?: Prisma.friendrequestUncheckedCreateNestedManyWithoutSenderInput
+  receivedRequests?: Prisma.friendrequestUncheckedCreateNestedManyWithoutReceiverInput
 }
 
 export type usersUpdateInput = {
@@ -376,8 +390,10 @@ export type usersUpdateInput = {
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photos?: Prisma.usersUpdatephotosInput | string[]
-  friends?: Prisma.usersUpdatefriendsInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sentRequests?: Prisma.friendrequestUpdateManyWithoutSenderNestedInput
+  receivedRequests?: Prisma.friendrequestUpdateManyWithoutReceiverNestedInput
 }
 
 export type usersUncheckedUpdateInput = {
@@ -391,8 +407,10 @@ export type usersUncheckedUpdateInput = {
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photos?: Prisma.usersUpdatephotosInput | string[]
-  friends?: Prisma.usersUpdatefriendsInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sentRequests?: Prisma.friendrequestUncheckedUpdateManyWithoutSenderNestedInput
+  receivedRequests?: Prisma.friendrequestUncheckedUpdateManyWithoutReceiverNestedInput
 }
 
 export type usersCreateManyInput = {
@@ -406,7 +424,7 @@ export type usersCreateManyInput = {
   facebook?: string | null
   profilePic?: string | null
   photos?: Prisma.usersCreatephotosInput | string[]
-  friends?: Prisma.usersCreatefriendsInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
   createdAt?: Date | string
 }
 
@@ -420,7 +438,7 @@ export type usersUpdateManyMutationInput = {
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photos?: Prisma.usersUpdatephotosInput | string[]
-  friends?: Prisma.usersUpdatefriendsInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -435,7 +453,7 @@ export type usersUncheckedUpdateManyInput = {
   facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photos?: Prisma.usersUpdatephotosInput | string[]
-  friends?: Prisma.usersUpdatefriendsInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -444,6 +462,14 @@ export type StringNullableListFilter<$PrismaModel = never> = {
   has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
   hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
   hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
   isEmpty?: boolean
 }
 
@@ -464,6 +490,7 @@ export type usersCountOrderByAggregateInput = {
 
 export type usersAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  friends?: Prisma.SortOrder
 }
 
 export type usersMaxOrderByAggregateInput = {
@@ -494,6 +521,12 @@ export type usersMinOrderByAggregateInput = {
 
 export type usersSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  friends?: Prisma.SortOrder
+}
+
+export type UsersScalarRelationFilter = {
+  is?: Prisma.usersWhereInput
+  isNot?: Prisma.usersWhereInput
 }
 
 export type usersCreatephotosInput = {
@@ -501,7 +534,7 @@ export type usersCreatephotosInput = {
 }
 
 export type usersCreatefriendsInput = {
-  set: string[]
+  set: number[]
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -518,14 +551,236 @@ export type usersUpdatephotosInput = {
 }
 
 export type usersUpdatefriendsInput = {
-  set?: string[]
-  push?: string | string[]
+  set?: number[]
+  push?: number | number[]
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type usersCreateNestedOneWithoutSentRequestsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutSentRequestsInput, Prisma.usersUncheckedCreateWithoutSentRequestsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutSentRequestsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersCreateNestedOneWithoutReceivedRequestsInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutReceivedRequestsInput, Prisma.usersUncheckedCreateWithoutReceivedRequestsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutReceivedRequestsInput
+  connect?: Prisma.usersWhereUniqueInput
+}
+
+export type usersUpdateOneRequiredWithoutSentRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutSentRequestsInput, Prisma.usersUncheckedCreateWithoutSentRequestsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutSentRequestsInput
+  upsert?: Prisma.usersUpsertWithoutSentRequestsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutSentRequestsInput, Prisma.usersUpdateWithoutSentRequestsInput>, Prisma.usersUncheckedUpdateWithoutSentRequestsInput>
+}
+
+export type usersUpdateOneRequiredWithoutReceivedRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.usersCreateWithoutReceivedRequestsInput, Prisma.usersUncheckedCreateWithoutReceivedRequestsInput>
+  connectOrCreate?: Prisma.usersCreateOrConnectWithoutReceivedRequestsInput
+  upsert?: Prisma.usersUpsertWithoutReceivedRequestsInput
+  connect?: Prisma.usersWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.usersUpdateToOneWithWhereWithoutReceivedRequestsInput, Prisma.usersUpdateWithoutReceivedRequestsInput>, Prisma.usersUncheckedUpdateWithoutReceivedRequestsInput>
+}
+
+export type usersCreateWithoutSentRequestsInput = {
+  username: string
+  password: string
+  name: string
+  bio: string
+  twitter?: string | null
+  instagram?: string | null
+  facebook?: string | null
+  profilePic?: string | null
+  photos?: Prisma.usersCreatephotosInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
+  createdAt?: Date | string
+  receivedRequests?: Prisma.friendrequestCreateNestedManyWithoutReceiverInput
+}
+
+export type usersUncheckedCreateWithoutSentRequestsInput = {
+  id?: number
+  username: string
+  password: string
+  name: string
+  bio: string
+  twitter?: string | null
+  instagram?: string | null
+  facebook?: string | null
+  profilePic?: string | null
+  photos?: Prisma.usersCreatephotosInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
+  createdAt?: Date | string
+  receivedRequests?: Prisma.friendrequestUncheckedCreateNestedManyWithoutReceiverInput
+}
+
+export type usersCreateOrConnectWithoutSentRequestsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutSentRequestsInput, Prisma.usersUncheckedCreateWithoutSentRequestsInput>
+}
+
+export type usersCreateWithoutReceivedRequestsInput = {
+  username: string
+  password: string
+  name: string
+  bio: string
+  twitter?: string | null
+  instagram?: string | null
+  facebook?: string | null
+  profilePic?: string | null
+  photos?: Prisma.usersCreatephotosInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
+  createdAt?: Date | string
+  sentRequests?: Prisma.friendrequestCreateNestedManyWithoutSenderInput
+}
+
+export type usersUncheckedCreateWithoutReceivedRequestsInput = {
+  id?: number
+  username: string
+  password: string
+  name: string
+  bio: string
+  twitter?: string | null
+  instagram?: string | null
+  facebook?: string | null
+  profilePic?: string | null
+  photos?: Prisma.usersCreatephotosInput | string[]
+  friends?: Prisma.usersCreatefriendsInput | number[]
+  createdAt?: Date | string
+  sentRequests?: Prisma.friendrequestUncheckedCreateNestedManyWithoutSenderInput
+}
+
+export type usersCreateOrConnectWithoutReceivedRequestsInput = {
+  where: Prisma.usersWhereUniqueInput
+  create: Prisma.XOR<Prisma.usersCreateWithoutReceivedRequestsInput, Prisma.usersUncheckedCreateWithoutReceivedRequestsInput>
+}
+
+export type usersUpsertWithoutSentRequestsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutSentRequestsInput, Prisma.usersUncheckedUpdateWithoutSentRequestsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutSentRequestsInput, Prisma.usersUncheckedCreateWithoutSentRequestsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutSentRequestsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutSentRequestsInput, Prisma.usersUncheckedUpdateWithoutSentRequestsInput>
+}
+
+export type usersUpdateWithoutSentRequestsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
+  twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.usersUpdatephotosInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receivedRequests?: Prisma.friendrequestUpdateManyWithoutReceiverNestedInput
+}
+
+export type usersUncheckedUpdateWithoutSentRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
+  twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.usersUpdatephotosInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  receivedRequests?: Prisma.friendrequestUncheckedUpdateManyWithoutReceiverNestedInput
+}
+
+export type usersUpsertWithoutReceivedRequestsInput = {
+  update: Prisma.XOR<Prisma.usersUpdateWithoutReceivedRequestsInput, Prisma.usersUncheckedUpdateWithoutReceivedRequestsInput>
+  create: Prisma.XOR<Prisma.usersCreateWithoutReceivedRequestsInput, Prisma.usersUncheckedCreateWithoutReceivedRequestsInput>
+  where?: Prisma.usersWhereInput
+}
+
+export type usersUpdateToOneWithWhereWithoutReceivedRequestsInput = {
+  where?: Prisma.usersWhereInput
+  data: Prisma.XOR<Prisma.usersUpdateWithoutReceivedRequestsInput, Prisma.usersUncheckedUpdateWithoutReceivedRequestsInput>
+}
+
+export type usersUpdateWithoutReceivedRequestsInput = {
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
+  twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.usersUpdatephotosInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sentRequests?: Prisma.friendrequestUpdateManyWithoutSenderNestedInput
+}
+
+export type usersUncheckedUpdateWithoutReceivedRequestsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  bio?: Prisma.StringFieldUpdateOperationsInput | string
+  twitter?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  facebook?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  profilePic?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photos?: Prisma.usersUpdatephotosInput | string[]
+  friends?: Prisma.usersUpdatefriendsInput | number[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sentRequests?: Prisma.friendrequestUncheckedUpdateManyWithoutSenderNestedInput
+}
+
+
+/**
+ * Count Type UsersCountOutputType
+ */
+
+export type UsersCountOutputType = {
+  sentRequests: number
+  receivedRequests: number
+}
+
+export type UsersCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sentRequests?: boolean | UsersCountOutputTypeCountSentRequestsArgs
+  receivedRequests?: boolean | UsersCountOutputTypeCountReceivedRequestsArgs
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UsersCountOutputType
+   */
+  select?: Prisma.UsersCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountSentRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.friendrequestWhereInput
+}
+
+/**
+ * UsersCountOutputType without action
+ */
+export type UsersCountOutputTypeCountReceivedRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.friendrequestWhereInput
+}
 
 
 export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -541,6 +796,9 @@ export type usersSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   photos?: boolean
   friends?: boolean
   createdAt?: boolean
+  sentRequests?: boolean | Prisma.users$sentRequestsArgs<ExtArgs>
+  receivedRequests?: boolean | Prisma.users$receivedRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["users"]>
 
 export type usersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -589,10 +847,20 @@ export type usersSelectScalar = {
 }
 
 export type usersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "password" | "name" | "bio" | "twitter" | "instagram" | "facebook" | "profilePic" | "photos" | "friends" | "createdAt", ExtArgs["result"]["users"]>
+export type usersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sentRequests?: boolean | Prisma.users$sentRequestsArgs<ExtArgs>
+  receivedRequests?: boolean | Prisma.users$receivedRequestsArgs<ExtArgs>
+  _count?: boolean | Prisma.UsersCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type usersIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type usersIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "users"
-  objects: {}
+  objects: {
+    sentRequests: Prisma.$friendrequestPayload<ExtArgs>[]
+    receivedRequests: Prisma.$friendrequestPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     username: string
@@ -604,7 +872,7 @@ export type $usersPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     facebook: string | null
     profilePic: string | null
     photos: string[]
-    friends: string[]
+    friends: number[]
     createdAt: Date
   }, ExtArgs["result"]["users"]>
   composites: {}
@@ -1000,6 +1268,8 @@ readonly fields: usersFieldRefs;
  */
 export interface Prisma__usersClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  sentRequests<T extends Prisma.users$sentRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$sentRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$friendrequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  receivedRequests<T extends Prisma.users$receivedRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.users$receivedRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$friendrequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1039,7 +1309,7 @@ export interface usersFieldRefs {
   readonly facebook: Prisma.FieldRef<"users", 'String'>
   readonly profilePic: Prisma.FieldRef<"users", 'String'>
   readonly photos: Prisma.FieldRef<"users", 'String[]'>
-  readonly friends: Prisma.FieldRef<"users", 'String[]'>
+  readonly friends: Prisma.FieldRef<"users", 'Int[]'>
   readonly createdAt: Prisma.FieldRef<"users", 'DateTime'>
 }
     
@@ -1057,6 +1327,10 @@ export type usersFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the users
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
   /**
    * Filter, which users to fetch.
    */
@@ -1076,6 +1350,10 @@ export type usersFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  /**
    * Filter, which users to fetch.
    */
   where: Prisma.usersWhereUniqueInput
@@ -1093,6 +1371,10 @@ export type usersFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the users
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
   /**
    * Filter, which users to fetch.
    */
@@ -1142,6 +1424,10 @@ export type usersFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  /**
    * Filter, which users to fetch.
    */
   where?: Prisma.usersWhereInput
@@ -1189,6 +1475,10 @@ export type usersFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the users
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
   /**
    * Filter, which users to fetch.
    */
@@ -1238,6 +1528,10 @@ export type usersCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  /**
    * The data needed to create a users.
    */
   data: Prisma.XOR<Prisma.usersCreateInput, Prisma.usersUncheckedCreateInput>
@@ -1285,6 +1579,10 @@ export type usersUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the users
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
   /**
    * The data needed to update a users.
    */
@@ -1352,6 +1650,10 @@ export type usersUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  /**
    * The filter to search for the users to update in case it exists.
    */
   where: Prisma.usersWhereUniqueInput
@@ -1378,6 +1680,10 @@ export type usersDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
+  /**
    * Filter which users to delete.
    */
   where: Prisma.usersWhereUniqueInput
@@ -1398,6 +1704,54 @@ export type usersDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * users.sentRequests
+ */
+export type users$sentRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the friendrequest
+   */
+  select?: Prisma.friendrequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the friendrequest
+   */
+  omit?: Prisma.friendrequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.friendrequestInclude<ExtArgs> | null
+  where?: Prisma.friendrequestWhereInput
+  orderBy?: Prisma.friendrequestOrderByWithRelationInput | Prisma.friendrequestOrderByWithRelationInput[]
+  cursor?: Prisma.friendrequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FriendrequestScalarFieldEnum | Prisma.FriendrequestScalarFieldEnum[]
+}
+
+/**
+ * users.receivedRequests
+ */
+export type users$receivedRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the friendrequest
+   */
+  select?: Prisma.friendrequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the friendrequest
+   */
+  omit?: Prisma.friendrequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.friendrequestInclude<ExtArgs> | null
+  where?: Prisma.friendrequestWhereInput
+  orderBy?: Prisma.friendrequestOrderByWithRelationInput | Prisma.friendrequestOrderByWithRelationInput[]
+  cursor?: Prisma.friendrequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FriendrequestScalarFieldEnum | Prisma.FriendrequestScalarFieldEnum[]
+}
+
+/**
  * users without action
  */
 export type usersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1409,4 +1763,8 @@ export type usersDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the users
    */
   omit?: Prisma.usersOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.usersInclude<ExtArgs> | null
 }

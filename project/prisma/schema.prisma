@@ -28,7 +28,30 @@ model users {
   profilePic String?
 
   photos  String[]
-  friends String[]
+  friends Int[]
 
   createdAt DateTime @default(now())
+  sentRequests friendrequest[] @relation("RequestSender")
+  receivedRequests friendrequest[] @relation("RequestReceiver")
+}
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model friendrequest {
+  id         Int     @id @default(autoincrement())
+
+  senderId   Int
+  receiverId Int
+
+  sender      users @relation("RequestSender", fields: [senderId], references: [id])
+  receiver    users @relation("RequestReceiver", fields: [receiverId], references: [id])
+
+  status FriendRequestStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+
+  @@unique([senderId, receiverId])
 }

@@ -1,4 +1,4 @@
-'use client'
+ 'use client'
 
 import {useState, useActionState} from "react";
 import {createAccount, login} from "@/app/actions";

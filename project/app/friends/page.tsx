@@ -1,14 +1,25 @@
-import NavBar from '../NavBar'
+import NavBar from "../NavBar";
+import {getCurrentUser} from "../actions";
+import Friends from './Friends'
 
-export default function Friends() {
-    return (
-        <>
-            <NavBar/>
-            <label htmlFor="site-search">Search the site:</label>
-            <input type="search" id="site-search" name="q"/>
+export default async function FriendsPage() {
+    const user = await getCurrentUser();
 
-            <button>Search</button></>
+    if (!user) {
+        return (
+            <>
+                <NavBar></NavBar>
+                <Friends loggedIn={true}/>
+            </>
 
+        )
+    } else {
+        return (
+            <>
+                <NavBar username={user.username}></NavBar>
+                <Friends loggedIn={false}/>
+            </>
+        )
+    }
 
-)
 }

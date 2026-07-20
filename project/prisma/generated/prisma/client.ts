@@ -51,3 +51,8 @@ export type orders = Prisma.ordersModel
  * 
  */
 export type users = Prisma.usersModel
+/**
+ * Model friendrequest
+ * 
+ */
+export type friendrequest = Prisma.friendrequestModel

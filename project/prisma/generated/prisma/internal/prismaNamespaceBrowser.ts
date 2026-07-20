@@ -52,7 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   orders: 'orders',
-  users: 'users'
+  users: 'users',
+  friendrequest: 'friendrequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -97,6 +98,17 @@ export const UsersScalarFieldEnum = {
 } as const
 
 export type UsersScalarFieldEnum = (typeof UsersScalarFieldEnum)[keyof typeof UsersScalarFieldEnum]
+
+
+export const FriendrequestScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type FriendrequestScalarFieldEnum = (typeof FriendrequestScalarFieldEnum)[keyof typeof FriendrequestScalarFieldEnum]
 
 
 export const SortOrder = {

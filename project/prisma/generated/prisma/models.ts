@@ -11,4 +11,5 @@
 export type * from './models/orders'
 export type * from './models/users'
 export type * from './models/friendrequest'
+export type * from './models/photo'
 export type * from './commonInputTypes'

@@ -386,7 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   orders: 'orders',
   users: 'users',
-  friendrequest: 'friendrequest'
+  friendrequest: 'friendrequest',
+  photo: 'photo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "orders" | "users" | "friendrequest"
+    modelProps: "orders" | "users" | "friendrequest" | "photo"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    photo: {
+      payload: Prisma.$photoPayload<ExtArgs>
+      fields: Prisma.photoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.photoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.photoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>
+        }
+        findFirst: {
+          args: Prisma.photoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.photoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>
+        }
+        findMany: {
+          args: Prisma.photoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>[]
+        }
+        create: {
+          args: Prisma.photoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>
+        }
+        createMany: {
+          args: Prisma.photoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.photoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>[]
+        }
+        delete: {
+          args: Prisma.photoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>
+        }
+        update: {
+          args: Prisma.photoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>
+        }
+        deleteMany: {
+          args: Prisma.photoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.photoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.photoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>[]
+        }
+        upsert: {
+          args: Prisma.photoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$photoPayload>
+        }
+        aggregate: {
+          args: Prisma.PhotoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePhoto>
+        }
+        groupBy: {
+          args: Prisma.photoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PhotoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.photoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PhotoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -687,7 +762,6 @@ export const UsersScalarFieldEnum = {
   instagram: 'instagram',
   facebook: 'facebook',
   profilePic: 'profilePic',
-  photos: 'photos',
   friends: 'friends',
   createdAt: 'createdAt'
 } as const
@@ -704,6 +778,16 @@ export const FriendrequestScalarFieldEnum = {
 } as const
 
 export type FriendrequestScalarFieldEnum = (typeof FriendrequestScalarFieldEnum)[keyof typeof FriendrequestScalarFieldEnum]
+
+
+export const PhotoScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt'
+} as const
+
+export type PhotoScalarFieldEnum = (typeof PhotoScalarFieldEnum)[keyof typeof PhotoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -918,6 +1002,7 @@ export type GlobalOmitConfig = {
   orders?: Prisma.ordersOmit
   users?: Prisma.usersOmit
   friendrequest?: Prisma.friendrequestOmit
+  photo?: Prisma.photoOmit
 }
 
 /* Types for Logging */

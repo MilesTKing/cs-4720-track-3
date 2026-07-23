@@ -56,3 +56,8 @@ export type users = Prisma.usersModel
  * 
  */
 export type friendrequest = Prisma.friendrequestModel
+/**
+ * Model photo
+ * 
+ */
+export type photo = Prisma.photoModel

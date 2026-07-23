@@ -27,7 +27,7 @@ model users {
 
   profilePic String?
 
-  photos  String[]
+  photos  photo[]
   friends Int[]
 
   createdAt DateTime @default(now())
@@ -54,4 +54,16 @@ model friendrequest {
   createdAt DateTime @default(now())
 
   @@unique([senderId, receiverId])
+}
+model photo {
+
+  id        Int @id @default(autoincrement())
+
+  imageUrl  String
+
+  ownerId   Int
+
+  owner users @relation(fields: [ownerId], references: [id])
+
+  createdAt DateTime @default(now())
 }

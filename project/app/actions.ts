@@ -4,6 +4,9 @@ import {PrismaClient} from "@/prisma/generated/prisma/client";
 import {PrismaNeon} from "@prisma/adapter-neon";
 import {revalidatePath} from "next/cache";
 import {cookies} from 'next/headers';
+import crypto from "crypto";
+import { PutObjectCommand} from "@aws-sdk/client-s3";
+import { s3 } from "@/app/lib/s3";
 
 const adapter = new PrismaNeon({
     connectionString: process.env.DATABASE_URL,
@@ -30,6 +33,18 @@ export async function createAccount(
             message: "Username already exists."
         };
     }
+    const file: File | null= formData.get("profilePicture")
+    let imageUrl= ""
+    if(file){
+        const bytes = await file.arrayBuffer();
+
+        const buffer = Buffer.from(bytes);
+        const key =
+            `profile-pictures/${crypto.randomUUID()}-${file.name}`;
+        await uploadPicture(buffer, key, file)
+        imageUrl =
+            `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+    }
 
     await prisma.users.create({
         data: {
@@ -42,8 +57,7 @@ export async function createAccount(
             instagram: String(formData.get("instagram") || ""),
             facebook: String(formData.get("facebook") || ""),
 
-            profilePic: "",
-            photos: [],
+            profilePic: imageUrl,
             friends: []
         }
     });
@@ -333,4 +347,112 @@ export async function declineFriendRequest(
         success: true,
         message: "Friend request declined."
     };
+}
+export async function uploadPicture(buffer: Buffer<ArrayBuffer>, key: string, file: File){
+
+    await s3.send(
+
+        new PutObjectCommand({
+
+            Bucket: process.env.AWS_BUCKET_NAME,
+
+            Key: key,
+
+            Body: buffer,
+
+            ContentType: file.type,
+            ACL: "public-read",
+
+        })
+
+    );
+}
+
+export async function uploadPhoto(
+    prevState: { success: boolean; message: string },
+    formData: FormData
+) {
+
+    const user = await getCurrentUser();
+
+    if (!user) {
+        return {
+            success: false,
+            message: "Please log in."
+        };
+    }
+
+    const file = formData.get("photo") as File;
+
+    if (!file || file.size === 0) {
+        return {
+            success: false,
+            message: "No file selected."
+        };
+    }
+
+    const bytes = await file.arrayBuffer();
+
+    const buffer = Buffer.from(bytes);
+
+    const key =
+        `posts/${user.id}/${crypto.randomUUID()}-${file.name}`;
+
+    await s3.send(new PutObjectCommand({
+
+        Bucket: process.env.AWS_BUCKET_NAME,
+
+        Key: key,
+
+        Body: buffer,
+
+        ContentType: file.type,
+        ACL: "public-read",
+
+    }));
+
+    const imageUrl =
+        `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+
+    await prisma.photo.create({
+
+        data: {
+
+            imageUrl,
+
+            ownerId: user.id
+
+        }
+
+    });
+
+    revalidatePath("/profile");
+
+    return {
+
+        success: true,
+
+        message: "Photo uploaded."
+
+    };
+
+}
+export async function getUserPhotos(userId: number) {
+
+    return prisma.photo.findMany({
+
+        where: {
+
+            ownerId: userId
+
+        },
+
+        orderBy: {
+
+            createdAt: "desc"
+
+        }
+
+    });
+
 }

@@ -1,74 +1,34 @@
-'use client'
+import { getFriendRequests } from "../actions";
+import FriendRequestCard from "./FriendRequestCard";
 
-import { useActionState } from "react";
-import { acceptFriendRequest, declineFriendRequest } from "@/app/actions";
+export default async function FriendRequestPanel() {
 
-export default function FriendRequestCard({
-                                              request
-                                          }:{
-    request:any
-}){
+    const requests = await getFriendRequests();
 
-    const [,accept] = useActionState(acceptFriendRequest,{
-        success:false,
-        message:""
-    });
+    return (
+        <div className="w-80 bg-white rounded-lg shadow-md p-4 self-start mr-2">
 
-    const [,decline] = useActionState(declineFriendRequest,{
-        success:false,
-        message:""
-    });
+            <h2 className="text-xl font-semibold border-b pb-2 mb-3">
+                Friend Requests
+            </h2>
 
-    return(
+            <div className="flex flex-col gap-3 max-h-72 overflow-y-auto">
 
-        <div className="flex justify-between items-center bg-white rounded shadow p-4">
-
-            <div>
-
-                <h2>{request.sender.name}</h2>
-
-                <p>@{request.sender.username}</p>
-
-            </div>
-
-            <div className="flex gap-2">
-
-                <form action={accept}>
-
-                    <input
-                        type="hidden"
-                        name="requestId"
-                        value={request.id}
-                    />
-
-                    <button
-                        className="bg-green-600 text-white px-4 py-2 rounded"
-                    >
-                        Accept
-                    </button>
-
-                </form>
-
-                <form action={decline}>
-
-                    <input
-                        type="hidden"
-                        name="requestId"
-                        value={request.id}
-                    />
-
-                    <button
-                        className="bg-red-600 text-white px-4 py-2 rounded"
-                    >
-                        Decline
-                    </button>
-
-                </form>
+                {requests.length === 0 ? (
+                    <p className="text-gray-500 text-center">
+                        No pending requests
+                    </p>
+                ) : (
+                    requests.map(request => (
+                        <FriendRequestCard
+                            key={request.id}
+                            request={request}
+                        />
+                    ))
+                )}
 
             </div>
 
         </div>
-
     );
-
 }

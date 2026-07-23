@@ -1,5 +1,6 @@
 import {getCurrentUser} from "@/app/actions";
-
+import UploadPhoto from './UploadPhotoPanel'
+import {getUserPhotos} from '@/app/actions';
 type userType =  {
     name: string
     bio: string
@@ -16,6 +17,7 @@ type userType =  {
 }
 export default async function ProfilePage() {
     const user = await getCurrentUser();
+    const photos = await getUserPhotos(user.id);
     return (
             <div className={'flex-auto flex flex-col items-center justify-center border-8/10'}>
                 <section className='flex flex-col bg-theme_gray w-8/10 '>
@@ -38,10 +40,26 @@ export default async function ProfilePage() {
                         <a href={user.facebook? user.facebook: ''}><img alt={'Facebook Link'} className={'flex-auto max-w-10'} src={'facebook.jpg'}/></a>
                     </div>
                 </section>
-                <section className='flex-auto flex flex-col bg-theme_blue w-4/5 h-[100%]'>
-                    <h1 className={'text-center text-[1.8rem]'}>Your Photos!</h1>
-                    <div className={''}>
+                <section className='flex-auto flex flex-col bg-theme_blue w-4/5'>
+                    <div className="flex justify-between items-center mb-4">
+                        <h1 className={'text-center text-[1.8rem]'}>Your asfasfasfPhotos!</h1>
+                        <UploadPhoto></UploadPhoto>
+                        </div>
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
+
+                        {photos.map(photo => (
+
+                            <img
+                                key={photo.id}
+                                src={photo.imageUrl}
+                                alt=""
+                                className="aspect-square object-cover rounded hover:scale-105 transition cursor-pointer"
+                            />
+
+                        ))}
+
                     </div>
+
                 </section>
             </div>
 

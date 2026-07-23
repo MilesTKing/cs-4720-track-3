@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   orders: 'orders',
   users: 'users',
-  friendrequest: 'friendrequest'
+  friendrequest: 'friendrequest',
+  photo: 'photo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -92,7 +93,6 @@ export const UsersScalarFieldEnum = {
   instagram: 'instagram',
   facebook: 'facebook',
   profilePic: 'profilePic',
-  photos: 'photos',
   friends: 'friends',
   createdAt: 'createdAt'
 } as const
@@ -109,6 +109,16 @@ export const FriendrequestScalarFieldEnum = {
 } as const
 
 export type FriendrequestScalarFieldEnum = (typeof FriendrequestScalarFieldEnum)[keyof typeof FriendrequestScalarFieldEnum]
+
+
+export const PhotoScalarFieldEnum = {
+  id: 'id',
+  imageUrl: 'imageUrl',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt'
+} as const
+
+export type PhotoScalarFieldEnum = (typeof PhotoScalarFieldEnum)[keyof typeof PhotoScalarFieldEnum]
 
 
 export const SortOrder = {

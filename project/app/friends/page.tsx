@@ -1,7 +1,7 @@
 import NavBar from "../NavBar";
 import {getCurrentUser} from "../actions";
 import Friends from './Friends'
-
+export const dynamic = "force-dynamic";
 export default async function FriendsPage() {
     const user = await getCurrentUser();
 

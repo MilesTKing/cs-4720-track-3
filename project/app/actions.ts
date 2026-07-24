@@ -5,8 +5,8 @@ import {PrismaNeon} from "@prisma/adapter-neon";
 import {revalidatePath} from "next/cache";
 import {cookies} from 'next/headers';
 import crypto from "crypto";
-import { PutObjectCommand} from "@aws-sdk/client-s3";
-import { s3 } from "@/app/lib/s3";
+import {PutObjectCommand} from "@aws-sdk/client-s3";
+import {s3} from "@/app/lib/s3";
 
 const adapter = new PrismaNeon({
     connectionString: process.env.DATABASE_URL,
@@ -33,9 +33,9 @@ export async function createAccount(
             message: "Username already exists."
         };
     }
-    const file: File | null= formData.get("profilePicture")
-    let imageUrl= ""
-    if(file){
+    const file: File | null = formData.get("profilePicture")
+    let imageUrl = ""
+    if (file) {
         const bytes = await file.arrayBuffer();
 
         const buffer = Buffer.from(bytes);
@@ -118,6 +118,7 @@ export async function getCurrentUser() {
         }
     });
 }
+
 export async function searchUsers(username: string) {
 
     if (!username.trim()) return [];
@@ -144,6 +145,7 @@ export async function logout() {
 
     cookieStore.delete("username");
 }
+
 export async function sendFriendRequest(
     prevState: { success: boolean; message: string },
     formData: FormData
@@ -348,10 +350,10 @@ export async function declineFriendRequest(
         message: "Friend request declined."
     };
 }
-export async function uploadPicture(buffer: Buffer<ArrayBuffer>, key: string, file: File){
+
+export async function uploadPicture(buffer: Buffer<ArrayBuffer>, key: string, file: File) {
 
     await s3.send(
-
         new PutObjectCommand({
 
             Bucket: process.env.AWS_BUCKET_NAME,
@@ -364,7 +366,6 @@ export async function uploadPicture(buffer: Buffer<ArrayBuffer>, key: string, fi
             ACL: "public-read",
 
         })
-
     );
 }
 
@@ -437,6 +438,7 @@ export async function uploadPhoto(
     };
 
 }
+
 export async function getUserPhotos(userId: number) {
 
     return prisma.photo.findMany({
@@ -456,6 +458,7 @@ export async function getUserPhotos(userId: number) {
     });
 
 }
+
 export async function getUserByUsername(username: string) {
 
     return prisma.users.findUnique({
@@ -494,4 +497,71 @@ export async function getFriends(userId: number) {
             username: "asc"
         }
     });
+}
+
+export async function searchUnsplash(query: string) {
+
+    if (!query.trim()) {
+        return [];
+    }
+
+    const response = await fetch(
+        `https://api.unsplash.com/search/photos?query=${encodeURIComponent(query)}&per_page=12`,
+        {
+            headers: {
+                Authorization:
+                    `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`
+            }
+        }
+    );
+
+
+    if (!response.ok) {
+        throw new Error("Unsplash search failed");
+    }
+
+
+    const data = await response.json();
+
+
+    return data.results.map((photo: any) => ({
+        id: photo.id,
+        url: photo.urls.regular,
+        thumbnail: photo.urls.small,
+        description: photo.alt_description,
+        photographer: photo.user.name
+    }));
+
+}
+
+export async function importUnsplashPhoto(
+    imageUrl: string
+) {
+
+    const user = await getCurrentUser();
+
+    if (!user) {
+        throw new Error("Not logged in");
+    }
+
+
+    /*
+       For now store directly.
+       Later replace this with:
+       Unsplash -> download -> S3 -> store S3 URL
+    */
+
+
+    await prisma.photo.create({
+
+        data: {
+            imageUrl,
+            ownerId: user.id
+        }
+
+    });
+
+
+    revalidatePath("/profile");
+
 }

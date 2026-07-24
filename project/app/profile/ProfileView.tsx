@@ -2,6 +2,7 @@
 import FriendRequestPanel from "../friends/FriendRequestPanel";
 import UploadPhoto from "./UploadPhotoPanel";
 import FriendsButton from "../friends/FriendsButton";
+import UnsplashSearch from "./UnsplashSearch";
 
 export default function ProfileView({user, photos, ownProfile}: { user: any; photos: any[]; ownProfile: boolean; }) {
     return (
@@ -81,12 +82,12 @@ export default function ProfileView({user, photos, ownProfile}: { user: any; pho
 
             <section className="flex flex-col bg-theme_blue w-4/5 mt-6 rounded-md p-4">
 
+                {ownProfile && <UnsplashSearch />}
                 <div className="flex justify-between items-center mb-4">
 
                     <h1 className="text-[1.8rem] text-white">
                         {ownProfile ? "Your Photos!" : `${user.name}'s Photos`}
                     </h1>
-
                     {ownProfile && <UploadPhoto />}
 
                 </div>

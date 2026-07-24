@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {searchUsers} from '../actions'
 import FriendButton from '../friends/FriendRequest'
+import Link from "next/link"
 export default function Friends({loggedIn}: {loggedIn: boolean}) {
 
     const [results, setResults] = useState<any[]>([]);
@@ -82,7 +83,20 @@ export default function Friends({loggedIn}: {loggedIn: boolean}) {
                                     </p>
 
                                 </div>
-                                    <FriendButton receiverId={user.id}></FriendButton>
+                                <div className="flex gap-2">
+
+                                    <Link
+                                        href={`/profile/${user.username}`}
+                                        className="bg-theme_gray px-4 py-2 rounded"
+                                    >
+                                        View Profile
+                                    </Link>
+
+                                    <FriendButton
+                                        receiverId={user.id}
+                                    />
+
+                                </div>
 
                             </div>
 

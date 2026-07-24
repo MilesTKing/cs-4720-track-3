@@ -456,3 +456,42 @@ export async function getUserPhotos(userId: number) {
     });
 
 }
+export async function getUserByUsername(username: string) {
+
+    return prisma.users.findUnique({
+
+        where: {
+            username
+        }
+
+    });
+
+}
+
+export async function getFriends(userId: number) {
+
+    const user = await prisma.users.findUnique({
+        where: {
+            id: userId
+        }
+    });
+
+    if (!user) return [];
+
+    return prisma.users.findMany({
+        where: {
+            id: {
+                in: user.friends
+            }
+        },
+        select: {
+            id: true,
+            username: true,
+            name: true,
+            profilePic: true
+        },
+        orderBy: {
+            username: "asc"
+        }
+    });
+}

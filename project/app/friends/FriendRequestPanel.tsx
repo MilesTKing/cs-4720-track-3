@@ -1,10 +1,19 @@
+'use client'
 import { getFriendRequests } from "../actions";
 import FriendRequestCard from "./FriendRequestCard";
+import {useState, useEffect} from "react";
+export default function FriendRequestPanel() {
 
-export default async function FriendRequestPanel() {
+    const [requests, setRequests] = useState<any[]>([]);
 
-    const requests = await getFriendRequests();
+    useEffect(() => {
+        async function load() {
+            const data = await getFriendRequests();
+            setRequests(data);
+        }
 
+        load();
+    }, []);
     return (
         <div className="w-80 bg-white rounded-lg shadow-md p-4 self-start mr-2">
 
